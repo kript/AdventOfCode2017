@@ -8,14 +8,45 @@ def day2_partone(row):
 	'''
 	smallest = 0
 	largest = 0
-	for item in row:
-		if item <= smallest:
-			smallest = item
-		if item >= largest:
-			largest = item
-	sum = largest - smallest
+	for counter, item in enumerate(row):
+		i = int(item)
+		# print "item: %s" % (i)
+		if counter == 0:
+			smallest = i
+			largest = i
+		else:
+			if i <= smallest:
+				smallest = i
+				# print "smallest: %s" % (smallest)
+			if i >= largest:
+				largest = i
+				# print "largest: %s" % (largest)
+		# print "largest: %s smallest: %s" % (largest, smallest)
+	difference = largest - smallest
 
-	return sum
+	return difference
+
+
+def day2_parttwo(row):
+	'''
+	the goal is to find the only two numbers in each row where 
+	one evenly divides the other - that is, where the result 
+	of the division operation is a whole number. They would like
+	 you to find those numbers on each line, divide them, and 
+	 add up each line's result.
+	'''
+	for counter, item in enumerate(row):
+		row_to_check = [x for i,x in enumerate(row) if i!=counter]
+		for row_counter, row_item in enumerate(row_to_check):
+			x = (row[counter] % row_item)
+			print "counter: %s X: %s row[counter]: %s row_item: %s" % (counter, x, row[counter], row_item)
+			if x is None:
+				print "match"
+				return row_item
+
+
+
+
 
 myTestArray = [ [5, 1, 9, 5], [7,5,3], [2,4,6,8] ]
 myRealArray = [
@@ -36,9 +67,31 @@ myRealArray = [
 [235,4935,4249,3316,1202,221,1835,380,249,1108,1922,5607,4255,238,211,3973],
 [1738,207,179,137,226,907,1468,1341,1582,1430,851,213,393,1727,1389,632]
 ]
+myTestArrayTwo = [ [5, 9, 2, 8], [9, 4, 7, 3,], [3, 8, 6, 5] ]
 
 total = 0
 print "Day two; part One"
-for row in myTestArray:
-	total = (total + day2_partone(row))
-	print "total: %s" % (total)
+for counter, row in enumerate(myTestArray):
+	result_row = day2_partone(row)
+	total = (total + result_row)
+	print "TestArray counter: %s total: %s" % (counter, result_row)
+
+print "total: %s" % (total)
+
+total = 0
+for counter, row in enumerate(myRealArray):
+	result_row = day2_partone(row)
+	total = (total + result_row)
+	print "RealArray counter: %s total: %s" % (counter, result_row)
+
+print "total: %s" % (total)
+
+total = 0
+print "Day two; part two"
+for counter, row in enumerate(myTestArrayTwo):
+	result_row = day2_parttwo(row)
+	total = (total + result_row)
+	print "TestArrayTwo counter: %s total: %s" % (counter, result_row)
+
+print "total: %s" % (total)
+
